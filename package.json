@@ -4,6 +4,7 @@
   "description": "use json to create react",
   "main": "index.js",
   "scripts": {
+    "test:watch": "jest --config jest.config.js --watch",
     "test": "jest --config jest.config.js",
     "build": "tsc",
     "dev": "tsc -w"
@@ -26,7 +27,11 @@
     "react": "^16.7.0"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.10",
     "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "jest": "^23.6.0",
+    "react-dom": "^16.7.0",
     "ts-jest": "^23.10.5",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"

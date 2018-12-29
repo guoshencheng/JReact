@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { Fragment } from 'react';
 
 export type ComponentJson = {
   type: string,
-  props: PropsJson,
-  events: EventJson[],
+  props?: PropsJson,
+  events?: EventJson[],
 }
 
 export type EventJson = {
@@ -30,29 +31,43 @@ export type JsonReactComponent = {
   Cls: React.ComponentType<any>
 }
 
-export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: JsonReact): JSX.Element[] => {
+export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: JsonReact): React.ReactElement<any> | undefined => {
   const { components, events } = ctx;
   if (!Array.isArray(json)) {
     json = [json];
   }
-  return json.filter(item => !!components[item.type]).map(item => {
-    const { type, props, events: es } = item;
-    const eventProps = es.filter(e => !!events[e.type]).reduce((pre, cur) => {
-      const ev = events[cur.type];
-      pre[ev.originEventKey] = ev.handler;
-      return pre;
-    }, {} as { [key: string]: JsonReactEventHandler });
-    const component = components[type];
-    const { Cls } = component;
+  const items = json.filter(item => !!components[item.type]);
+  if (items && items.length > 0) {
     return (
-      <Cls {...props} {...eventProps} />
+      <Fragment>
+       {
+        items.map((item, index) => {
+          const { type, props, events: es } = item;
+          const eventProps = es ? es.filter(e => !!events[e.type]).reduce((pre, cur) => {
+            const ev = events[cur.type];
+            pre[ev.originEventKey] = ev.handler;
+            return pre;
+          }, {} as { [key: string]: JsonReactEventHandler }) : {};
+          const component = components[type];
+          const { Cls } = component;
+          return (
+            <Cls key={index} {...props} {...eventProps} />
+          )
+        })
+       }
+      </Fragment>
     )
-  })
+  }
 }
 
 export class JsonReact {
   components: StringMap<JsonReactComponent>
   events: StringMap<JsonReactEvent>
+
+  constructor() {
+    this.components = {};
+    this.events = {};
+  }
 
   component = (key: string, jsonReactComp: JsonReactComponent) => {
     this.components[key] = jsonReactComp;
