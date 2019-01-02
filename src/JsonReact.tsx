@@ -28,7 +28,7 @@ export type JsonReactEvent = {
 } 
 
 export type JsonReactComponent = {
-  Cls: React.ComponentType<any>
+  Cls: React.ComponentType<any> | 'input' | keyof React.ReactHTML | keyof React.ReactSVG,
 }
 
 export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: JsonReact): React.ReactElement<any> | undefined => {
@@ -36,7 +36,7 @@ export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: J
   if (!Array.isArray(json)) {
     json = [json];
   }
-  const items = json.filter(item => !!components[item.type]);
+  const items = json;
   if (items && items.length > 0) {
     return (
       <Fragment>
@@ -49,10 +49,23 @@ export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: J
             return pre;
           }, {} as { [key: string]: JsonReactEventHandler }) : {};
           const component = components[type];
-          const { Cls } = component;
-          return (
-            <Cls key={index} {...props} {...eventProps} />
-          )
+          let Cls;
+          if (!component) {
+            Cls = type as keyof React.ReactHTML;
+          } else {
+            Cls = component.Cls;
+          }
+          if (typeof Cls === 'string') {
+            let children;
+            if (props) {
+              children = props.children;
+            }
+            return React.createElement(Cls, { ...props, ...eventProps, key: index }, children);
+          } else {
+            return (
+              <Cls key={index} {...props} {...eventProps} />
+            )
+          }
         })
       }
       </Fragment>
@@ -61,6 +74,7 @@ export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: J
 }
 
 export class JsonReact {
+
   components: StringMap<JsonReactComponent>
   events: StringMap<JsonReactEvent>
 

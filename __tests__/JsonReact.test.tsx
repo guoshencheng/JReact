@@ -4,13 +4,8 @@ import { JsonReact } from '../src/index';
 
 describe('check json react render success', () =>  {
   const jsonReact = new JsonReact();
-  jsonReact.component('div', {
-    Cls: props => (
-      <div {...props} />
-    )
-  });
   it('render div success', () => {
-    const el =  jsonReact.renderToReactNode({
+    const el = jsonReact.renderToReactNode({
       type: 'div',
       props: { style: { left: 20 } }
     })
