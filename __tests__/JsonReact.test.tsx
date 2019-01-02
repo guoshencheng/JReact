@@ -12,10 +12,13 @@ describe('check json react render success', () =>  {
   it('render div success', () => {
     const el =  jsonReact.renderToReactNode({
       type: 'div',
-      props: {}
+      props: { style: { left: 20 } }
     })
+    expect(el).toBeDefined();
     if (el) {
-      console.log(ReactDOMServer.renderToString(el));
+      expect(ReactDOMServer.renderToString(el)).toBe(ReactDOMServer.renderToString(
+        <div style={{left: 20}} />
+      ))
     }
   }) 
 });

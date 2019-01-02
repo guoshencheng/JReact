@@ -13,7 +13,7 @@ export type EventJson = {
 }
 
 export type PropsJson = {
-  [key: string]: string,
+  [key: string]: any,
 }
 
 export type StringMap<T> = {
@@ -40,7 +40,7 @@ export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: J
   if (items && items.length > 0) {
     return (
       <Fragment>
-       {
+      {
         items.map((item, index) => {
           const { type, props, events: es } = item;
           const eventProps = es ? es.filter(e => !!events[e.type]).reduce((pre, cur) => {
@@ -54,7 +54,7 @@ export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: J
             <Cls key={index} {...props} {...eventProps} />
           )
         })
-       }
+      }
       </Fragment>
     )
   }
