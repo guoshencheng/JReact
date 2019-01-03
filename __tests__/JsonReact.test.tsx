@@ -71,7 +71,7 @@ describe('check json react render success', () =>  {
         <input type='text'/>
       </div>
     );
-    jsonReact.component('Custom', {
+    JsonReact.RegisterComponent('Custom', {
       Cls: Custom
     })
     const el = jsonReact.createJsonComp({
@@ -96,7 +96,7 @@ describe('check json react render success', () =>  {
         <input type='text'/>
       </div>
     );
-    jsonReact.component('Custom', {
+    JsonReact.RegisterComponent('Custom', {
       Cls: Custom,
     })
     const el = jsonReact.createJsonComp({
