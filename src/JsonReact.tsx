@@ -28,7 +28,7 @@ export type JsonReactEvent = {
 } 
 
 export type JsonReactComponent = {
-  Cls: React.ComponentType<any> | 'input' | keyof React.ReactHTML | keyof React.ReactSVG,
+  Cls: React.ComponentType<any>
 }
 
 export class JsonReact {

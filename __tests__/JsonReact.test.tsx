@@ -14,6 +14,9 @@ describe('check json react render success', () =>  {
     const el = jsonReact.createJsonComp([{
       type: 'div',
       props: { style: { left: 20 } }
+    }, {
+      type: 'div',
+      props: { style: { left: 50 } }
     }])
     expect(el).toBeDefined();
     expect(ReactDOMServer.renderToString(
@@ -21,7 +24,10 @@ describe('check json react render success', () =>  {
       {el}
       </React.Fragment>
     )).toBe(ReactDOMServer.renderToString(
-      <div style={{left: 20}} />
+      <React.Fragment>
+        <div style={{left: 20}} />
+        <div style={{left: 50}} />
+      </React.Fragment>
     ))
   })
   it('render div success', () => {
@@ -48,22 +54,40 @@ describe('check json react render success', () =>  {
       }
     })
     expect(el).toBeDefined();
-    if (el) {
-      expect(ReactDOMServer.renderToString(el)).toBe(ReactDOMServer.renderToString(
-        <div 
-          style={{left: 20}} 
-          className='parent'
-        >
-          <div className='child' />
-        </div>
-      ))
-    }
+    expect(ReactDOMServer.renderToString(el)).toBe(ReactDOMServer.renderToString(
+      <div 
+        style={{left: 20}} 
+        className='parent'
+      >
+        <div className='child' />
+      </div>
+    ))
   })
 
-  // it('render custom component success', () => {
-  //   const el = jsonReact.renderToReactNode({
-  //     type: 'div',
-  //   })
-  // })
+  it('render custom component success', () => {
+    const Custom = (props: any) => (
+      <div className='custom-component' { ...props }>
+        <label>title</label>
+        <input type='text'/>
+      </div>
+    );
+    jsonReact.component('Custom', {
+      Cls: Custom
+    })
+    const el = jsonReact.createJsonComp({
+      type: 'Custom',
+      props: {
+        style:{left: 20}
+      }
+    })
+    expect(ReactDOMServer.renderToString(el)).toBe(ReactDOMServer.renderToString(
+      <div className='custom-component'
+        style={{left: 20}}
+      >
+        <label>title</label>
+        <input type='text'/>
+      </div>
+    ))
+  })
 });
 
