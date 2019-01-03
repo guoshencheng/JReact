@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Fragment } from 'react';
 
 export type ComponentJson = {
   type: string,
   props?: PropsJson,
   events?: EventJson[],
+  children?: ComponentJson | ComponentJson []
 }
 
 export type EventJson = {
@@ -31,7 +31,8 @@ export type JsonReactComponent = {
   Cls: React.ComponentType<any> | 'input' | keyof React.ReactHTML | keyof React.ReactSVG,
 }
 
-export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: JsonReact): React.ReactElement<any> | undefined => {
+export const createJsonCompoent = (json: ComponentJson | ComponentJson[] | undefined, ctx: JsonReact): React.ReactElement<any>[] | undefined => {
+  if (!json) return;
   const { components, events } = ctx;
   if (!Array.isArray(json)) {
     json = [json];
@@ -39,36 +40,29 @@ export const createJsonCompoent = (json: ComponentJson | ComponentJson[], ctx: J
   const items = json;
   if (items && items.length > 0) {
     return (
-      <Fragment>
-      {
-        items.map((item, index) => {
-          const { type, props, events: es } = item;
-          const eventProps = es ? es.filter(e => !!events[e.type]).reduce((pre, cur) => {
-            const ev = events[cur.type];
-            pre[ev.originEventKey] = ev.handler;
-            return pre;
-          }, {} as { [key: string]: JsonReactEventHandler }) : {};
-          const component = components[type];
-          let Cls;
-          if (!component) {
-            Cls = type as keyof React.ReactHTML;
-          } else {
-            Cls = component.Cls;
-          }
-          if (typeof Cls === 'string') {
-            let children;
-            if (props) {
-              children = props.children;
-            }
-            return React.createElement(Cls, { ...props, ...eventProps, key: index }, children);
-          } else {
-            return (
-              <Cls key={index} {...props} {...eventProps} />
-            )
-          }
-        })
-      }
-      </Fragment>
+      items.map((item, index) => {
+        const { type, props, events: es, children } = item;
+        const childNode = createJsonCompoent(children, ctx);
+        const eventProps = es ? es.filter(e => !!events[e.type]).reduce((pre, cur) => {
+          const ev = events[cur.type];
+          pre[ev.originEventKey] = ev.handler;
+          return pre;
+        }, {} as { [key: string]: JsonReactEventHandler }) : {};
+        const component = components[type];
+        let Cls;
+        if (!component) {
+          Cls = type as keyof React.ReactHTML;
+        } else {
+          Cls = component.Cls;
+        }
+        if (typeof Cls === 'string') {
+          return React.createElement(Cls, { ...props, ...eventProps, key: index }, childNode);
+        } else {
+          return (
+            childNode ? <Cls key={index} {...props} {...eventProps}>{childNode}</Cls> : <Cls key={index} {...props} {...eventProps} />
+          )
+        }
+      })
     )
   }
 }
