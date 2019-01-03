@@ -89,5 +89,38 @@ describe('check json react render success', () =>  {
       </div>
     ))
   })
+  it('render custom component success with data', () => {
+    const Custom = ({ data, ...args }: { data: any, [key: string]: any }) => (
+      <div className='custom-component' {...args}>
+        <label>{data.title}</label>
+        <input type='text'/>
+      </div>
+    );
+    jsonReact.component('Custom', {
+      Cls: Custom,
+    })
+    const el = jsonReact.createJsonComp({
+      type: 'Custom',
+      props: {
+        style:{left: 20}
+      },
+      data: {
+        title: 'custom component'
+      },
+    })
+    expect(ReactDOMServer.renderToString(el)).toBe(ReactDOMServer.renderToString(
+      <div className='custom-component'
+        style={{left: 20}}
+      >
+        <label>custom component</label>
+        <input type='text'/>
+      </div>
+    ))
+  })
 });
+
+describe('check event handler', () => {
+  
+})
+
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 export type ComponentJson = {
+  data?: any,
   type: string,
   props?: PropsJson,
   events?: EventJson[],
@@ -49,7 +50,7 @@ export class JsonReact {
 
   createSingleJsonComp(json: ComponentJson, key?: any): React.ReactElement<any> {
     const { components, events } = this;
-    const { type, props, events: es, children } = json;
+    const { type, props, events: es, children, data } = json;
     const childNode = this.createJsonComp(children as any);
     const eventProps = es ? es.filter(e => !!events[e.type]).reduce((pre, cur) => {
       const ev = events[cur.type];
@@ -67,7 +68,7 @@ export class JsonReact {
       return React.createElement(Cls, { ...props, ...eventProps, key }, childNode);
     } else {
       return (
-        childNode ? <Cls key={key} {...props} {...eventProps}>{childNode}</Cls> : <Cls key={key} {...props} {...eventProps} />
+        childNode ? <Cls data={data} key={key} {...props} {...eventProps}>{childNode}</Cls> : <Cls data={data} key={key} {...props} {...eventProps} />
       )
     }
   }
