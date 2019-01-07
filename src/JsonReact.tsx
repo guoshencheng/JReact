@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Tree from './tools/tree';
 
 export type MaybeArray<T> = T | T[]
 
@@ -51,10 +52,17 @@ export type JsonReactComponentProps = {
   json?: MaybeArray<ComponentJson>
 }
 
+export type JsonReactTreeNodeData = {
+  json: ComponentJson
+  element: React.ReactElement<any>
+}
+
 export class JsonReact {
 
   static Components: StringMap<JRComponent> = {}
   static Events: StringMap<JREvent> = {}
+
+  nodes: Tree<JsonReactTreeNodeData>
 
   private createJsonArrayComp(json: ComponentJson[]): React.ReactElement<any>[] {
     return json.map((item, index) => (
