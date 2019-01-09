@@ -69,7 +69,7 @@ export class JsonReact {
   jsonToNodes(): undefined;
   jsonToNodes(json?: MaybeArray<ComponentJson>): MaybeArray<Tree<JsonReactTreeNodeData>> | undefined {
     if (!json) return;
-    if (Array.isArray(json))  {
+    if (Array.isArray(json)) {
       return json.map(j => this.jsonToNodes(j));
     } else {
       const node = new Tree<JsonReactTreeNodeData>();
