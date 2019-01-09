@@ -2,6 +2,48 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { JsonReact } from '../src/index';
 
+describe('check json to nodes success', () => {
+  const jsonReact = new JsonReact();
+  it('null json to nodes success', () => {
+    const tree = jsonReact.jsonToNodes()
+    expect(tree).toBeUndefined();
+  })
+  it('array json to nodes success', () => {
+    const tree = jsonReact.jsonToNodes([{
+      type: 'div',
+      props: { style: { left: 20 } }
+    }, {
+      type: 'div',
+      props: { style: { left: 50 } }
+    }])
+    expect(tree).toBeDefined();
+    expect(tree.length).toBe(2);
+    expect(tree[0].data.json).toEqual({
+      type: 'div',
+      props: { style: { left: 20 } }
+    })
+  })
+
+  it('single json to nodes success', () => {
+    var data = {
+      type: 'div',
+      props: { style: { left: 20 } },
+      children: [{
+        type: 'div',
+        props: { style: { left: 50 } }
+      }, {
+        type: 'div',
+        props: { style: { left: 60 } }
+      }]
+    }
+    const tree = jsonReact.jsonToNodes(data)
+    expect(tree).toBeDefined();
+    expect(tree.data.json).toEqual(data);
+    expect(tree.children[0].data.json).toEqual(data.children[0]);
+    expect(tree.children[1].data.json).toEqual(data.children[1]);
+  })
+});
+
 describe('check json react render success', () =>  {
   const jsonReact = new JsonReact();
   it('render null return undefined', () => {

@@ -53,8 +53,8 @@ export type JsonReactComponentProps = {
 }
 
 export type JsonReactTreeNodeData = {
-  json: ComponentJson
-  element: React.ReactElement<any>
+  json: MaybeArray<ComponentJson>
+  element?: MaybeArray<React.ReactElement<any>>
 }
 
 export class JsonReact {
@@ -64,10 +64,32 @@ export class JsonReact {
 
   nodes: Tree<JsonReactTreeNodeData>
 
+  jsonToNodes(json: ComponentJson[]): Tree<JsonReactTreeNodeData>[];
+  jsonToNodes(json: ComponentJson): Tree<JsonReactTreeNodeData>;
+  jsonToNodes(): undefined;
+  jsonToNodes(json?: MaybeArray<ComponentJson>): MaybeArray<Tree<JsonReactTreeNodeData>> | undefined {
+    if (!json) return;
+    if (Array.isArray(json))  {
+      return json.map(j => this.jsonToNodes(j));
+    } else {
+      const node = new Tree<JsonReactTreeNodeData>();
+      node.data = {
+        json
+      };
+      if (json.children) {
+        this.jsonToNodes(json.children as any).forEach(child => {
+          node.insert(child)
+        });
+      }
+      return node;
+    }
+  }
+
   private createJsonArrayComp(json: ComponentJson[]): React.ReactElement<any>[] {
-    return json.map((item, index) => (
+    const ele = json.map((item, index) => (
       this.createSingleJsonComp(item, index)
     ));
+    return ele;
   }
 
   private createSingleJsonComp(json: ComponentJson, key?: any): React.ReactElement<any> {
