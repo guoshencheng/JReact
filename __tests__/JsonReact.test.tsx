@@ -38,7 +38,10 @@ describe('check json to nodes success', () => {
     }
     const tree = jsonReact.jsonToNodes(data)
     expect(tree).toBeDefined();
-    expect(tree.data.json).toEqual(data);
+    expect(tree.data.json).toEqual({
+      type: data.type,
+      props: data.props,
+    });
     expect(tree.children[0].data.json).toEqual(data.children[0]);
     expect(tree.children[1].data.json).toEqual(data.children[1]);
   })

@@ -53,8 +53,8 @@ export type JsonReactComponentProps = {
 }
 
 export type JsonReactTreeNodeData = {
-  json: MaybeArray<ComponentJson>
-  element?: MaybeArray<React.ReactElement<any>>
+  json: ComponentJson
+  element?: React.ReactElement<any>
 }
 
 export class JsonReact {
@@ -73,8 +73,10 @@ export class JsonReact {
       return json.map(j => this.jsonToNodes(j));
     } else {
       const node = new Tree<JsonReactTreeNodeData>();
+      const temp = { ...json };
+      delete temp.children;
       node.data = {
-        json
+        json: temp
       };
       if (json.children) {
         this.jsonToNodes(json.children as any).forEach(child => {
@@ -83,6 +85,42 @@ export class JsonReact {
       }
       return node;
     }
+  }
+
+  compareAndRender(pre: MaybeArray<Tree<JsonReactTreeNodeData>> | undefined, next: MaybeArray<Tree<JsonReactTreeNodeData>> | undefined) {
+    if (!pre) {
+      if (!next) return;
+      if (Array.isArray(next)) {
+        return next.map(item => this.compareAndRender(pre, item));
+      } else {
+        const { json } = next.data;
+        const { Components } = JsonReact;
+        const { type, props, children, data } = json;
+        const component = Components[type];
+        let Cls;
+        if (!component) {
+          // use react origin html tag if component is not found
+          Cls = type as keyof React.ReactHTML;
+        } else {
+          // use registed class or function
+          Cls = component.Cls;
+        }
+        if (typeof Cls === 'string') {
+          return React.createElement(Cls, { ...props });
+        } else {
+          return (
+            <Cls data={data} {...props} />
+          )
+        }
+      }
+    }
+  }
+
+  render(json: ComponentJson[]): React.ReactElement<any>[];
+  render(json: ComponentJson): React.ReactElement<any>;
+  render(): undefined;
+  render(json?: MaybeArray<ComponentJson>): MaybeArray<React.ReactElement<any>> | undefined {
+    const node = this.jsonToNodes(json as any);
   }
 
   private createJsonArrayComp(json: ComponentJson[]): React.ReactElement<any>[] {
