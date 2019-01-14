@@ -1,40 +1,17 @@
 import * as React from 'react';
 import Tree from './tools/tree';
 
-export type MaybeArray<T> = T | T[]
+import { ComponentJson, StringMap, JsonReactEventHandler, JREvent, JRComponent, MaybeArray } from './JsonReactTypes';
 
-export type ComponentJson = {
-  data?: any,
-  type: string,
-  props?: PropsJson,
-  events?: EventJson[],
-  children?: MaybeArray<ComponentJson>
-}
-
-export type EventJson = {
-  key: string,
-  type: string,
-}
-
-export type PropsJson = {
-  [key: string]: any,
-}
-
-export type StringMap<T> = {
-  [key: string]: T
-}
-
-export type JsonReactEventHandler = (key: string, data: any) => void;
-
-export type JREvent = {
-  originEventKey: string,
-  handler: JsonReactEventHandler
-} 
-
-export type JRComponent = {
-  Cls: React.ComponentType<any>
-}
-
+// 初始化
+// 生成对应的数据tree，
+// 数据tree生成element并记录到tree中
+// 
+// 更新
+// 生成对应的数据tree
+// 自上而下的比较数据
+// 当前tree的value是否浅相等，是 ? 直接返回原来的element，否 ？返回新创建的element
+// children中有key的应该找寻相应的节点进行比较
 export class JsonReactComponent extends React.Component<JsonReactComponentProps> {
   jsonReact: JsonReact
   constructor(props: any, context: any) {
@@ -95,7 +72,7 @@ export class JsonReact {
       } else {
         const { json } = next.data;
         const { Components } = JsonReact;
-        const { type, props, children, data } = json;
+        const { type, props, data } = json;
         const component = Components[type];
         let Cls;
         if (!component) {
