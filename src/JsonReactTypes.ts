@@ -1,12 +1,13 @@
 export type MaybeArray<T> = T | T[]
 
 export type ComponentJson = {
+  key?: string,
   data?: any,
   type: string,
   props?: PropsJson,
   events?: EventJson[],
   children?: MaybeArray<ComponentJson>
-}
+} | string
 
 export type EventJson = {
   key: string,
