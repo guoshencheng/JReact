@@ -1,7 +1,10 @@
 import * as React from 'react';
+import { Connect } from 'react-redux';
 import { MaybeArray, ComponentJson, StringMap, JRComponent, JREvent } from './JsonReactTypes';
 
 class ReactElementBuilder {
+
+  static connect: Connect
 
   static Components: StringMap<JRComponent> = {}
   static Events: StringMap<JREvent> = {}
@@ -22,7 +25,7 @@ class ReactElementBuilder {
       return json;
     }
     const { Components } = ReactElementBuilder;
-    const { type: t, props, children } = json;
+    const { type: t, props, children, data } = json;
     const childNode = ReactElementBuilder.build(children as any);
     // resolve event props
     const component = Components[t];
@@ -31,8 +34,8 @@ class ReactElementBuilder {
       // use react origin html tag if component is not found
       Cls = t as keyof React.ReactHTML;
     } else {
-      // use registed class or function
-      Cls = component.Cls;
+      // use registed class or function wraped with connect
+      Cls = ReactElementBuilder.connect ? ReactElementBuilder.connect(data, dispatch => ({ dispatch }))(component.Cls) : component.Cls
     }
     return (
       <Cls key={key} {...props}>{ childNode }</Cls>

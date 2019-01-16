@@ -32,15 +32,15 @@ describe('create store sucess', () => {
         }
       }
     })
-    const action = (dispatch, getState) => {
+    const action = (dispatch: any, getState: any) => {
       const { key } = getState().a;
       if (key > 1) {
         dispatch({
-          type: 'up',
+          type: 'down',
         })
       } else {
         dispatch({
-          type: 'down',
+          type: 'up',
         })
       }
     }

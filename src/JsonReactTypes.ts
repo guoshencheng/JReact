@@ -2,7 +2,7 @@ export type MaybeArray<T> = T | T[]
 
 export type ComponentJson = {
   key?: string,
-  data?: any,
+  data?: (state: any) => any,
   type: string,
   props?: PropsJson,
   events?: EventJson[],
