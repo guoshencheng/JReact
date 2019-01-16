@@ -47,7 +47,7 @@ class ReactElementBuilder {
   static build(json: ComponentJson[]) : React.ReactElement<any>[];
   static build(json: (ComponentJson | string)[]) : (React.ReactElement<any> | string)[];
   static build(json: ComponentJson): React.ReactElement<any>;
-  static build(json?: MaybeArray<ComponentJson | string> | undefined): MaybeArray<React.ReactElement<any> | string> | undefined{
+  static build(json?: MaybeArray<ComponentJson | string> | undefined): MaybeArray<React.ReactElement<any> | string> | undefined {
     if (!json) return json;
     if (!Array.isArray(json)) {
       return ReactElementBuilder.buildSingle(json);

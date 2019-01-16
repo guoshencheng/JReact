@@ -33,6 +33,6 @@ export type JREvent = {
 
 export type JRComponent = {
   name?: string,
-  reducer: Reducer<any, any>,
+  reducer?: Reducer<any, any>,
   Cls: React.ComponentType<any>
 }
