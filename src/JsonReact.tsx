@@ -5,7 +5,7 @@ import { JRComponent, StringMap, ComponentJson, MaybeArray } from './JsonReactTy
 import Logger from './Logger';
 import { Reducer, Store } from 'redux';
 import State from './State';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 
 export const DataMapReducerActions = {
   UPDATE: '$$DATAMAP_REDUCER_ACTION_$$UPDATE',
@@ -22,6 +22,8 @@ export const DataMapReducer = (defaultState = {}) => (state = defaultState, acti
       return state;
   }
 }
+
+ReactElementBuilder.connect = connect;
 
 export default class JsonReact extends EventEmitter {
 

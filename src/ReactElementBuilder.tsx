@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Connect } from 'react-redux';
 import { MaybeArray, ComponentJson, StringMap, JRComponent, JREvent } from './JsonReactTypes';
+import get from 'lodash.get';
 import { EventEmitter } from 'fbemitter';
 import { Store } from 'redux';
 
@@ -33,18 +34,19 @@ class ReactElementBuilder {
     const { Components } = ReactElementBuilder;
     const { type: t, props, children, data, events: es } = json;
 
-    es && es.forEach(event => {
-      if (ReactElementBuilder.emitter) {
-        ReactElementBuilder.emitter.addListener(event.event, (data: any) => {
-          if (ReactElementBuilder.store) {
-            ReactElementBuilder.store.dispatch({
+    if (ReactElementBuilder.store) {
+      const store = ReactElementBuilder.store;
+      es && es.forEach(event => { 
+        if (ReactElementBuilder.emitter) {
+          ReactElementBuilder.emitter.addListener(event.event, (d: any) => {
+            store.dispatch({
               type: event.reducer,
-              data,
+              data: d,
             });
-          }
-        })
-      }
-    });
+          })
+        }
+      });
+    }
 
     const childNode = ReactElementBuilder.build(children as any);
     // resolve event props
@@ -57,8 +59,11 @@ class ReactElementBuilder {
         <Cls key={key} {...props} >{ childNode }</Cls>
       )
     } else {
+      const mapState = (p?: string) => (state: any) => ({
+        data: get(state, p || t)
+       });
       // use registed class or function wraped with connect
-      Cls = ReactElementBuilder.connect ? ReactElementBuilder.connect(data, dispatch => ({ dispatch }))(component.Cls) : component.Cls
+      Cls = ReactElementBuilder.connect ? ReactElementBuilder.connect(mapState(data), dispatch => ({ dispatch }))(component.Cls) : component.Cls
       return (
         <Cls key={key} {...props} emitter={ReactElementBuilder.emitter} >{ childNode }</Cls>
       )
