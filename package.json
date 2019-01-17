@@ -4,6 +4,7 @@
   "description": "use json to create react",
   "main": "index.js",
   "scripts": {
+    "example": "parcel examples/index.html",
     "test:watch": "jest --config jest.config.js --watch",
     "test": "jest --config jest.config.js",
     "build": "tsc",
@@ -35,6 +36,7 @@
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
     "jest": "^23.6.0",
+    "parcel": "^1.11.0",
     "react-dom": "^16.7.0",
     "ts-jest": "^23.10.5",
     "tslint": "^5.12.0",
