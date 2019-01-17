@@ -1,8 +1,8 @@
 {
-  "name": "jsonreact",
-  "version": "1.0.0",
+  "name": "jreact",
+  "version": "0.0.1",
   "description": "use json to create react",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "example": "parcel examples/index.html",
     "test:watch": "jest --config jest.config.js --watch",
