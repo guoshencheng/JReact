@@ -1,4 +1,4 @@
-import { Reducer } from "react";
+import { Reducer } from 'react';
 
 export type MaybeArray<T> = T | T[]
 
@@ -7,14 +7,9 @@ export type ComponentJson = {
   data?: (state: any) => any,
   type: string,
   props?: PropsJson,
-  events?: EventJson[],
+  events?: StringMap<string>,
   children?: MaybeArray<ComponentJson>
 } | string
-
-export type EventJson = {
-  key: string,
-  type: string,
-}
 
 export type PropsJson = {
   [key: string]: any,
@@ -31,8 +26,15 @@ export type JREvent = {
   handler: JsonReactEventHandler
 } 
 
+export type DescribableKey = {
+  key: string,
+  desc?: string,
+}
+
 export type JRComponent = {
   name?: string,
   reducer?: Reducer<any, any>,
-  Cls: React.ComponentType<any>
+  Cls: React.ComponentType<any>,
+  actionKeys?: StringMap<DescribableKey>,
+  eventKeys?: StringMap<DescribableKey>
 }
