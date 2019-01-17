@@ -7,9 +7,14 @@ export type ComponentJson = {
   data?: (state: any) => any,
   type: string,
   props?: PropsJson,
-  events?: StringMap<string>,
+  events?: EventJson[],
   children?: MaybeArray<ComponentJson>
 } | string
+
+export type EventJson = {
+  event: string,
+  reducer: string,
+}
 
 export type PropsJson = {
   [key: string]: any,

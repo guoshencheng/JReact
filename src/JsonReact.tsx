@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { EventEmitter } from 'fbemitter';
 import ReactElementBuilder from './ReactElementBuilder';
 import { JRComponent, StringMap, ComponentJson, MaybeArray } from './JsonReactTypes';
 import Logger from './Logger';
@@ -24,7 +25,7 @@ export const DataMapReducer = (state = defaultState, action: any) => {
   }
 }
 
-export default class JsonReact {
+export default class JsonReact extends EventEmitter {
 
   static Logger = Logger
 
@@ -49,15 +50,19 @@ export default class JsonReact {
   store: Store<any, any>
 
   constructor() {
+    super();
     this.store = State.createStore(JsonReact.reducers);
   }
 
   render(json?: MaybeArray<ComponentJson | string> | undefined) {
-    return (
+    this.removeAllListeners();
+    ReactElementBuilder.emitter = this;
+    const el = (
       <Provider store={this.store}>
         {ReactElementBuilder.build(json as any)}
       </Provider>
     )
+    delete ReactElementBuilder.emitter;
+    return el;
   }
-
 }

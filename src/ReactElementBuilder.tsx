@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Connect } from 'react-redux';
 import { MaybeArray, ComponentJson, StringMap, JRComponent, JREvent } from './JsonReactTypes';
+import { EventEmitter } from 'fbemitter';
+import { Store } from 'redux';
 
 class ReactElementBuilder {
 
@@ -8,6 +10,10 @@ class ReactElementBuilder {
 
   static Components: StringMap<JRComponent> = {}
   static Events: StringMap<JREvent> = {}
+
+  static emitter?: EventEmitter;
+
+  static store?: Store
 
   static RegisterComponent(name: string, jrComp: JRComponent) {
     ReactElementBuilder.Components[name] = jrComp;
@@ -25,7 +31,21 @@ class ReactElementBuilder {
       return json;
     }
     const { Components } = ReactElementBuilder;
-    const { type: t, props, children, data } = json;
+    const { type: t, props, children, data, events: es } = json;
+
+    es && es.forEach(event => {
+      if (ReactElementBuilder.emitter) {
+        ReactElementBuilder.emitter.addListener(event.event, (data: any) => {
+          if (ReactElementBuilder.store) {
+            ReactElementBuilder.store.dispatch({
+              type: event.reducer,
+              data,
+            });
+          }
+        })
+      }
+    });
+
     const childNode = ReactElementBuilder.build(children as any);
     // resolve event props
     const component = Components[t];
