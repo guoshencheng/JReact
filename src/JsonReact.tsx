@@ -12,9 +12,7 @@ export const DataMapReducerActions = {
   CLEAN: '$$DATAMAP_REDUCER_ACTION_$$CLEAN',
 }
 
-const defaultState = {};
-
-export const DataMapReducer = (state = defaultState, action: any) => {
+export const DataMapReducer = (defaultState = {}) => (state = defaultState, action: any) => {
   switch(action.type) {
     case DataMapReducerActions.UPDATE:
       return { ...state, [action.key]: action.value }
@@ -29,9 +27,7 @@ export default class JsonReact extends EventEmitter {
 
   static Logger = Logger
 
-  static reducers: StringMap<Reducer<any, any>> = {
-    '$datamap': DataMapReducer
-  }
+  static reducers: StringMap<Reducer<any, any>> = {}
 
   static RegisterComponent(jrComp: JRComponent, name?: string) {
     name = name || jrComp.name;
@@ -49,20 +45,22 @@ export default class JsonReact extends EventEmitter {
 
   store: Store<any, any>
 
-  constructor() {
+  constructor(defultJRData: any) {
     super();
-    this.store = State.createStore(JsonReact.reducers);
+    this.store = State.createStore({ ...JsonReact.reducers, jrdata: DataMapReducer(defultJRData) });
   }
 
   render(json?: MaybeArray<ComponentJson | string> | undefined) {
     this.removeAllListeners();
     ReactElementBuilder.emitter = this;
+    ReactElementBuilder.store = this.store;
     const el = (
       <Provider store={this.store}>
         {ReactElementBuilder.build(json as any)}
       </Provider>
     )
     delete ReactElementBuilder.emitter;
+    delete ReactElementBuilder.store;
     return el;
   }
 }

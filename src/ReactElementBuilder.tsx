@@ -53,13 +53,16 @@ class ReactElementBuilder {
     if (!component) {
       // use react origin html tag if component is not found
       Cls = t as keyof React.ReactHTML;
+      return (
+        <Cls key={key} {...props} >{ childNode }</Cls>
+      )
     } else {
       // use registed class or function wraped with connect
       Cls = ReactElementBuilder.connect ? ReactElementBuilder.connect(data, dispatch => ({ dispatch }))(component.Cls) : component.Cls
+      return (
+        <Cls key={key} {...props} emitter={ReactElementBuilder.emitter} >{ childNode }</Cls>
+      )
     }
-    return (
-      <Cls key={key} {...props}>{ childNode }</Cls>
-    )
   }
 
   static build(json: string): string;
