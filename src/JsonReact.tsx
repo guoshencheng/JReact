@@ -45,9 +45,9 @@ export default class JsonReact extends EventEmitter {
 
   store: Store<any, any>
 
-  constructor(defultJRData: any) {
+  constructor(defultJRData?: any) {
     super();
-    this.store = State.createStore({ ...JsonReact.reducers, jrdata: DataMapReducer(defultJRData) });
+    this.store = State.createStore({ ...JsonReact.reducers, jrdata: DataMapReducer(defultJRData || {}) });
   }
 
   render(json?: MaybeArray<ComponentJson | string> | undefined) {
