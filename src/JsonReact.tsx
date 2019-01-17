@@ -6,11 +6,31 @@ import { Reducer, Store } from 'redux';
 import State from './State';
 import { Provider } from 'react-redux';
 
+export const DataMapReducerActions = {
+  UPDATE: '$$DATAMAP_REDUCER_ACTION_$$UPDATE',
+  CLEAN: '$$DATAMAP_REDUCER_ACTION_$$CLEAN',
+}
+
+const defaultState = {};
+
+export const DataMapReducer = (state = defaultState, action: any) => {
+  switch(action.type) {
+    case DataMapReducerActions.UPDATE:
+      return { ...state, [action.key]: action.value }
+    case DataMapReducerActions.CLEAN:
+      return defaultState;
+    default:
+      return state;
+  }
+}
+
 export default class JsonReact {
 
   static Logger = Logger
 
-  static reducers: StringMap<Reducer<any, any>> = {}
+  static reducers: StringMap<Reducer<any, any>> = {
+    '$datamap': DataMapReducer
+  }
 
   static RegisterComponent(jrComp: JRComponent, name?: string) {
     name = name || jrComp.name;
@@ -32,7 +52,7 @@ export default class JsonReact {
     this.store = State.createStore(JsonReact.reducers);
   }
 
-  render(json: MaybeArray<ComponentJson | string> | undefined) {
+  render(json?: MaybeArray<ComponentJson | string> | undefined) {
     return (
       <Provider store={this.store}>
         {ReactElementBuilder.build(json as any)}
