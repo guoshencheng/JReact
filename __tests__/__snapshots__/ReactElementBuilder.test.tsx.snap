@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`check json react render success render a array type of json 1`] = `
+Array [
+  <div
+    style={
+      Object {
+        "left": 20,
+      }
+    }
+  />,
+  <div
+    style={
+      Object {
+        "left": 50,
+      }
+    }
+  />,
+]
+`;
+
+exports[`check json react render success render custom component success 1`] = `
+<div
+  className="custom-component"
+  style={
+    Object {
+      "left": 20,
+    }
+  }
+>
+  <label>
+    title
+  </label>
+  <input
+    type="text"
+  />
+</div>
+`;
+
+exports[`check json react render success render div success 1`] = `
+<div
+  style={
+    Object {
+      "left": 20,
+    }
+  }
+/>
+`;
+
+exports[`check json react render success render div.parent>div.child success 1`] = `
+<div
+  className="parent"
+  style={
+    Object {
+      "left": 20,
+    }
+  }
+>
+  <div
+    className="child"
+  />
+</div>
+`;

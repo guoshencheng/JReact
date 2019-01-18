@@ -1,7 +1,6 @@
 import JsonReact from '../src';
-import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
-import { Provider } from 'react-redux';
+import * as trenderer from 'react-test-renderer';
 
 describe('success render with json', () => {
   it('success render null as null', () => {
@@ -21,15 +20,8 @@ describe('success render with json', () => {
       type: 'div',
       props: { style: { left: 50 } }
     }])
-    expect(el).toBeDefined();
-    expect(ReactDOMServer.renderToString(
-      el
-    )).toBe(ReactDOMServer.renderToString(
-      <Provider store={renderer.store}>
-        <div style={{left: 20}} />
-        <div style={{left: 50}} />
-      </Provider>
-    ))
+    const tree = trenderer.create(el).toJSON();
+    expect(tree).toMatchSnapshot();
   })
   it('render div success', () => {
     const renderer = new JsonReact();
@@ -37,13 +29,7 @@ describe('success render with json', () => {
       type: 'div',
       props: { style: { left: 20 } }
     })
-    expect(el).toBeDefined();
-    if (el) {
-      expect(ReactDOMServer.renderToString(el)).toBe(ReactDOMServer.renderToString(
-        <Provider store={renderer.store}>
-            <div style={{left: 20}} />
-        </Provider>
-      ))
-    }
+    const tree = trenderer.create(el).toJSON();
+    expect(tree).toMatchSnapshot();
   }) 
 })
