@@ -4,6 +4,7 @@
   "description": "use json to create react",
   "main": "lib/index.js",
   "scripts": {
+    "prepublish": "npm run build",
     "example": "parcel examples/index.html",
     "test:watch": "jest --config jest.config.js --watch",
     "test": "jest --config jest.config.js",
@@ -25,7 +26,6 @@
   },
   "homepage": "https://github.com/guoshencheng/JsonReact#readme",
   "dependencies": {
-    "@types/react-redux": "^7.0.0",
     "fbemitter": "^2.1.1",
     "lodash.get": "^4.4.2",
     "react": "^16.7.0",
@@ -39,6 +39,7 @@
     "@types/lodash.get": "^4.4.4",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
+    "@types/react-redux": "^7.0.0",
     "jest": "^23.6.0",
     "parcel": "^1.11.0",
     "react-dom": "^16.7.0",
