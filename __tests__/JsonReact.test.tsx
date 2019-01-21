@@ -65,10 +65,10 @@ describe('render custom component', () => {
     expect(tree).toMatchSnapshot();
   })
   it('change rendere result when dispatch event', () => {
-    const tree = trenderer.create(el).toJSON();
     renderer.store.dispatch({
       type: B.actionKeys.BCLICKED.key
     })
+    const tree = trenderer.create(el).toJSON();
     expect(tree).toMatchSnapshot();
   })
 })

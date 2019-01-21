@@ -26,7 +26,7 @@ Array [
   </div>,
   <div>
     clicked 
-    0
+    1
   </div>,
 ]
 `;
@@ -57,7 +57,7 @@ Array [
   </div>,
   <div>
     clicked 
-    1
+    0
   </div>,
 ]
 `;
