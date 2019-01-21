@@ -1,5 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`render custom component change rendere result when dispatch event 1`] = `
+Array [
+  <div
+    style={
+      Object {
+        "left": 20,
+      }
+    }
+  >
+    WelCome 
+    To 
+    JsonReact
+  </div>,
+  <div
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "red",
+        "color": "white",
+      }
+    }
+  >
+    Click me!
+  </div>,
+  <div>
+    clicked 
+    0
+  </div>,
+]
+`;
+
+exports[`render custom component success render custom component 1`] = `
+Array [
+  <div
+    style={
+      Object {
+        "left": 20,
+      }
+    }
+  >
+    WelCome 
+    To 
+    JsonReact
+  </div>,
+  <div
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "red",
+        "color": "white",
+      }
+    }
+  >
+    Click me!
+  </div>,
+  <div>
+    clicked 
+    1
+  </div>,
+]
+`;
+
 exports[`success render with json render a array type of json 1`] = `
 Array [
   <div

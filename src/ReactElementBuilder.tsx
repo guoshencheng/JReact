@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Connect } from 'react-redux';
 import { MaybeArray, ComponentJson, StringMap, JRComponent, JREvent } from './JsonReactTypes';
-import get from 'lodash.get';
+import get = require('lodash.get');
 import { EventEmitter } from 'fbemitter';
 import { Store } from 'redux';
 
