@@ -2,6 +2,18 @@
 
 > 通过json来渲染生成react node 从而来达到json渲染页面的效果
 
+### example
+
+```bash
+npm run example
+```
+
+### test
+
+```bash
+npm run test
+```
+
 ### 如何定义一个Json自定义组件
 
 ```typescript
