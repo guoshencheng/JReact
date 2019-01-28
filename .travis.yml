@@ -6,18 +6,16 @@ node_js:
 install:
 - yarn
 
-
 jobs:
   include: 
-    - stage: test
+    - stage: check
+      if: type = pull_request
       script: npm run test
-    - stage: build
-      script: npm run build
-      on:
-        tags: true
-        repo: guoshencheng/JsonReact
-    - stage: deplpy
-      script: true
+    - stage: deploy
+      if: tag =~ /^[0-9]+\.[0-9]+\.[0-9]+$/
+      script: 
+      - npm run test
+      - npm run build
       deploy:
         provider: npm
         email: guoshencheng1@gmail.com
