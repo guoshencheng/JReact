@@ -1,20 +1,16 @@
 language: node_js
-
 node_js:
 - 8.11.3
-
 install:
 - yarn
-
-script: 
+script:
 - npm run test
 - npm run build
-
 deploy:
   provider: npm
   email: guoshencheng1@gmail.com
   api_key:
-  secure: Bd27IiuD5LzzupB/b7h9D36RKNvHI6jQHNO81y9WM6wXiMYSrx84LsOqJUXcfdJ4XFFiZdCzok16W7gtTiXGa9rFZVwdm4fN2ssE/y+KNaE6mnJHQOIx8LJ6MBexHKr+uAy7aDD8chCEG9i2wxCkMAK3QjEQADivpBGwXTVrSNxW1tmrQVhbX3MzCTrEpAF8whPgQP3Isfw4mao2T5pg/eHrb60YOUEORaY/dyo86nthddK9+iEa1hlWEyYEISjkuFpvQ1k6GGRe0uHp6Be0H7h0fPpIVBNMkmIk4JBH92BuwdjY6EHXgM48cgVTqwrjRjBnU/IpdZPVTtle/3dGMpO0rF3V4RD6LdTvvVVjlKQOQbqmGFx0+2OJrZgnrlWCo+H0/uPyWb4fabxeNMyVZZl/NMp/ljfp3PEDNapILYKZVkuXflSfXMnpR/kNPjEGMHi0jOD71b0aeIpI5pz9UOmkiwZoRF7RgMwaI0ebzKezk1wSF1dT1pVS0wfhtT0U9rKLkan2UjoH2qdYbKZA/wwwEkGVbZwGj2UYwJMJ/g05voaWzKSZm2ZwDVoQNBsU6EtlGXww14JaUJdw/53CinCHFpmMKKUk3KZ7Uur6sAqKjF+1UKrR/OSJvBDgOgzi4ZVqanRuBJpSd+aF+9N3oUxPNJlM8piC4fToTZPKXOI=
+    secure: OMnr/9h5hIIny7IQoZ/mdGXbGoBQxKDsKnv9OuEweVj5jKE0fUo63YpMaWDbcRnPF1tpU1NXQbw1d4ZwZ/QRhoeO3TbZTrN6sYbua8v2mmKlc59RpNEAL834MroHoOSJN0/Xkicr92rVyqNxHk8j6meiq0LRzyvcb8gNWnNZGnRg+jgM5OArAEnTFccahZcnhvNYsrb96mfGW208PsGStIpFqavxqEXiTdmFq0WB/8/oG4GucPKQ45OVSme01s9EUR6Y/TzD/+mVFi/C3vOdQQNJnqz8Kx0toM4XDBtRwIrBuc2vKgz60Kjp15Z/30QvfGbl2dbSsptxrDxj/Qvso4W09dP/NCsgDKOa3oa74+nXEewC5KNF7F6qLYNQiBOWP0b34yL1BnvToy+yiIQI9LzkndjoWujaoVn7R3VWIgdrkpoREgCxXRiOkTz6DjGD4nh3f07g3lD+4898NeXLnJXmp+QGsYIlFjA6In+4N5HpN0HC0NDWPdRwdsiJHntGfM0NQjOACmR842SwFiq91v+Rm3OIpyo+lo6Vzg9mkg7Odw1Tb//laMZiS113If9BV1ykz0qN23k3JG7akUh2xQ1i2VHi4/Y/GIxXBmVvGn2cpkKvqQegqwWa2l8BWfT0ABnYalGiVO1kdVoiSKj4NrQ6oD/sMqj5633R61iEdvI=
   on:
     tags: true
     repo: guoshencheng/JsonReact
