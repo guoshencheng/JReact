@@ -1,4 +1,4 @@
-# JsonReact [![Build Status](https://travis-ci.org/guoshencheng/JsonReact.svg?branch=master)](https://travis-ci.org/guoshencheng/JsonReact)
+# jreact [![Build Status](https://travis-ci.org/guoshencheng/JsonReact.svg?branch=master)](https://travis-ci.org/guoshencheng/JsonReact)
 
 > 通过json来渲染生成react node 从而来达到json渲染页面的效果
 
